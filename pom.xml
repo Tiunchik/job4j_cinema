@@ -20,7 +20,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/box</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/cinema</db.url>
                 <db.username>postgres</db.username>
                 <db.password>password</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -29,7 +29,7 @@
         <profile>
             <id>production</id>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/box</db.url>
+                <db.url>jdbc:postgresql://127.0.0.1:5432/cinema</db.url>
                 <db.username>postgres</db.username>
                 <db.password>password</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -41,7 +41,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <db.url>jdbc:postgresql://localhost/box</db.url>
+                <db.url>jdbc:postgresql://localhost/cinema</db.url>
                 <db.username>postgres</db.username>
                 <db.password></db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
@@ -213,6 +213,7 @@
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
         </dependency>
+
 
 
     </dependencies>

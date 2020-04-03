@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var temp = localStorage.getItem('payment');
+            temp = JSON.parse(temp);
+            var places = "";
+            $(temp.check).each(function (index, el) {
+                places = places + el + " "
+            });
+            $('#places').val("You are buying places: " + places + ", the price is " + temp.number * 500);
+        });
+
+        function purchase() {
+            var temp = localStorage.getItem('payment');
+            temp = temp.substring(0, temp.length - 1);
+            temp = temp + ",\"name\":\"" + $('#name').val() + "\"}";
+            $.ajax({
+                url: getContextPath() + "/post",
+                method: 'POST',
+                contentType: 'json',
+                data: temp
+            }).done(function () {
+                location.href = getContextPath() + "/index";
+            })
+        }
+
+        function getContextPath() {
+            return location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Payment form</h2>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="places">Chosen plases:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="places" name="places" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Firstname Surname</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="phone">Phone number</label>
+            <div class="col-sm-10">
+                <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" name="phone">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-default" onclick="purchase()">Purchase</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
