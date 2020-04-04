@@ -57,21 +57,11 @@ public class DBStore implements Base {
     }
 
     /**
-     * get SOURCE connection
-     *
-     * @return connection
-     * @throws SQLException
-     */
-    private Connection getConnection() throws SQLException {
-        return SOURCE.getConnection();
-    }
-
-    /**
      * static method to get link to DBStore
      *
      * @return link to DBStore
      */
-    public static DBStore getInstance() {
+    public static Base getInstance() {
         return BASE;
     }
 
@@ -123,6 +113,7 @@ public class DBStore implements Base {
      *
      * @return list of list of places
      */
+    @Override
     public List<Place> getHall1() {
         List<Place> hall = new ArrayList<>(100);
         try (Connection connection = SOURCE.getConnection()) {
@@ -144,6 +135,7 @@ public class DBStore implements Base {
      *
      * @param place information about parchasing plase
      */
+    @Override
     public void purchaise(Place place) {
         int id = Objects.hash(place.getName());
         Connection connection = null;
@@ -180,5 +172,29 @@ public class DBStore implements Base {
                 LOG.error("close connection exception", e);
             }
         }
+    }
+
+    /**
+     * check place before purchaisung
+     *
+     * @param place place for cheking
+     * @return true if place is owned to cinema. false if was bought another man
+     */
+    @Override
+    public boolean checkStatus(Place place) {
+        try (Connection connection = SOURCE.getConnection()) {
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM HALL1 as H WHERE ROW=? and PLACE= ? ");
+            st.setInt(1, place.getRow());
+            st.setInt(2, place.getPlace());
+            var rs = st.executeQuery();
+            while (rs.next()) {
+                if (rs.getInt("ACC") != 0) {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error("close connection exception", e);
+        }
+        return true;
     }
 }

@@ -33,7 +33,7 @@ public enum LogicBlock {
     /**
      * connection to DB
      */
-    private static final DBStore PBD = DBStore.getInstance();
+    private static final Base PBD = DBStore.getInstance();
 
     /**
      * return enum LOGIC
@@ -70,6 +70,42 @@ public enum LogicBlock {
      */
     public void purchaise(Place place) {
         PBD.purchaise(place);
+    }
+
+    /**
+     * check place before purchaisung
+     *
+     * @param place place for cheking
+     * @return true if place is owned to cinema. false if was bought another man
+     */
+    public boolean checkPlace(Place place) {
+        return PBD.checkStatus(place);
+    }
+
+    /**
+     * buy list of places
+     *
+     * @param list list of places
+     */
+    public void purchaiseList(List<Place> list) {
+        list.forEach(this::purchaise);
+    }
+
+    /**
+     * checkPlace method to list of places
+     *
+     * @param list list of places
+     * @return true if all places is owned to cinema
+     */
+    public boolean checkList(List<Place> list) {
+        var answer = true;
+        for (var e : list) {
+            answer = checkPlace(e);
+            if (!answer) {
+                break;
+            }
+        }
+        return answer;
     }
 
 }

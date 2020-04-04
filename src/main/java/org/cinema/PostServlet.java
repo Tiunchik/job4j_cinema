@@ -23,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -48,10 +50,10 @@ public class PostServlet extends HttpServlet {
     /**
      * process two type of post - to get all information about hall and make purchase operation with hall
      *
-     * @param req -
+     * @param req  -
      * @param resp -
      * @throws ServletException -
-     * @throws IOException -
+     * @throws IOException      -
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -73,10 +75,31 @@ public class PostServlet extends HttpServlet {
 
             if (((String) jsonRequest.get("action")).equalsIgnoreCase("payment")) {
                 JSONArray s = (JSONArray) jsonRequest.get("check");
+                List<Place> temp = new ArrayList<>(40);
                 for (var e : s) {
                     String str = e.toString();
                     String[] pl = str.split("-");
-                    LOGIC.purchaise(new Place(Integer.parseInt(pl[0]), Integer.parseInt(pl[1]), (String) jsonRequest.get("name")));
+                    temp.add(new Place(Integer.parseInt(pl[0]), Integer.parseInt(pl[1]), (String) jsonRequest.get("name")));
+                }
+                if (LOGIC.checkList(temp)) {
+                    LOGIC.purchaiseList(temp);
+                    resp.setStatus(200);
+                } else {
+                    resp.setStatus(500);
+                }
+            }
+            if (((String) jsonRequest.get("action")).equalsIgnoreCase("checkplases")) {
+                JSONArray s = (JSONArray) jsonRequest.get("check");
+                List<Place> temp = new ArrayList<>(40);
+                for (var e : s) {
+                    String str = e.toString();
+                    String[] pl = str.split("-");
+                    temp.add(new Place(Integer.parseInt(pl[0]), Integer.parseInt(pl[1]), (String) jsonRequest.get("name")));
+                }
+                if (LOGIC.checkList(temp)) {
+                    resp.setStatus(200);
+                } else {
+                    resp.setStatus(500);
                 }
             }
         } catch (ParseException e) {
