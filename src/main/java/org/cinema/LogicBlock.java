@@ -64,15 +64,6 @@ public enum LogicBlock {
     }
 
     /**
-     * purchasing one place
-     *
-     * @param place information about parchasing plase
-     */
-    public void purchaise(Place place) {
-        PBD.purchaise(place);
-    }
-
-    /**
      * check place before purchaisung
      *
      * @param place place for cheking
@@ -88,7 +79,7 @@ public enum LogicBlock {
      * @param list list of places
      */
     public void purchaiseList(List<Place> list) {
-        list.forEach(this::purchaise);
+        PBD.purchaiseList(list);
     }
 
     /**

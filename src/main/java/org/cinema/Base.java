@@ -19,7 +19,9 @@ public interface Base {
 
     List<Place> getHall1();
 
-    void purchaise(Place place);
+    void purchaiseList(List<Place> list);
 
     boolean checkStatus(Place place);
+
+
 }

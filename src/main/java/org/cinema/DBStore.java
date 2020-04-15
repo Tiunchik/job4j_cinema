@@ -5,6 +5,7 @@
  */
 package org.cinema;
 
+import com.sun.istack.NotNull;
 import net.jcip.annotations.ThreadSafe;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
@@ -52,6 +53,7 @@ public class DBStore implements Base {
         SOURCE.setMinIdle(5);
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
+        SOURCE.setDefaultTransactionIsolation(4);
         createTB();
         createHall1();
     }
@@ -133,45 +135,57 @@ public class DBStore implements Base {
     /**
      * purchasing one place
      *
-     * @param place information about parchasing plase
+     * @param list information about parchasing plase
      */
     @Override
-    public void purchaise(Place place) {
+    public void purchaiseList(@NotNull List<Place> list) {
+        if (!list.isEmpty()) {
+            int id = addNewBuyer(list.get(0));
+            Connection connection = null;
+            try {
+                connection = SOURCE.getConnection();
+                connection.setAutoCommit(false);
+                PreparedStatement st = connection.prepareStatement("UPDATE HALL1 SET ACC=? WHERE ROW=? and PLACE=? and ACC=0");
+                for (var place : list) {
+                    st.setInt(1, id);
+                    st.setInt(2, place.getRow());
+                    st.setInt(3, place.getPlace());
+                    st.addBatch();
+                }
+                st.executeBatch();
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    LOG.error("set places method SQL ecxeption", e);
+                }
+                LOG.error("set places method SQL ecxeption", e);
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    LOG.error("close connection exception", e);
+                }
+            }
+        }
+    }
+
+    private int addNewBuyer(Place place) {
         int id = Objects.hash(place.getName());
         Connection connection = null;
         try {
             connection = SOURCE.getConnection();
-            connection.setAutoCommit(false);
             PreparedStatement st = connection.prepareStatement("INSERT INTO ACCOUNT (ID, NAME) VALUES (?,?) ON CONFLICT (ID) DO NOTHING ");
             st.setInt(1, id);
             st.setString(2, place.getName());
-            st.execute();
-            st = connection.prepareStatement("UPDATE HALL1 SET ACC=? WHERE ROW=? and PLACE=?");
-            st.setInt(1, id);
-            st.setInt(2, place.getRow());
-            st.setInt(3, place.getPlace());
-            st.execute();
-            connection.commit();
-            connection.setAutoCommit(true);
+            return id;
         } catch (SQLException e) {
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException ex) {
-                ex.setNextException(e);
-                LOG.error("rollback exception", ex);
-            }
             LOG.error("set places method SQL ecxeption", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                LOG.error("close connection exception", e);
-            }
         }
+        return 0;
     }
 
     /**
