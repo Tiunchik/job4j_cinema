@@ -91,13 +91,6 @@
             <version>2.8.6</version>
         </dependency>
 
-        <!-- dependencies for searchink links on files gotten from jsp page with data request-->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.4</version>
-        </dependency>
-
         <!-- dependencies for psql and ldb -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -118,56 +111,6 @@
             <version>2.4.0</version>
         </dependency>
 
-        <!-- dependencies for ? -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
-        </dependency>
-
-        <!-- dependencies for testing -->
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-testng</artifactId>
-            <version>2.0.5</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>2.0.5</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <version>2.0.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.1.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- dependencies for logger -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -180,41 +123,12 @@
             <version>2.13.0</version>
         </dependency>
 
-        <!-- dependencies for work with xml -->
-        <dependency>
-            <groupId>javax.xml</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.1</version>
-        </dependency>
-
-        <!-- dependencies for html parsing -->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.12.2</version>
-        </dependency>
-
-        <!-- dependencies for timer -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-
-        <!-- dependencies for ? -->
+        <!-- dependencies for multithreading annotations -->
         <dependency>
             <groupId>net.jcip</groupId>
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
         </dependency>
-
-
 
     </dependencies>
     <build>

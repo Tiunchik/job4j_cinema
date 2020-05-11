@@ -3,17 +3,16 @@
  *
  * @author Maksim Tiunchik
  */
-package org.cinema;
+package org.cinema.base;
 
-import com.sun.istack.NotNull;
 import net.jcip.annotations.ThreadSafe;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.cinema.models.Place;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -138,7 +137,7 @@ public class DBStore implements Base {
      * @param list information about parchasing plase
      */
     @Override
-    public void purchaiseList(@NotNull List<Place> list) {
+    public void purchaiseList(List<Place> list) {
         if (!list.isEmpty()) {
             int id = addNewBuyer(list.get(0));
             Connection connection = null;

@@ -4,7 +4,9 @@
  * @author Maksim Tiunchik
  */
 
-package org.cinema;
+package org.cinema.base;
+
+import org.cinema.models.Place;
 
 import java.util.List;
 
